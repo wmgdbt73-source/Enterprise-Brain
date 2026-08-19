@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Enterprise Brain · Employee MVP V0.10 · Reminder Center</title>
+<style>
+*{box-sizing:border-box}:root{--side:258px;--rail:52px;--drawer:300px;--bg:#f5f5f3;--surface:#fff;--line:#e3e3df;--ink:#202124;--muted:#7e8288;--dark:#111214}html,body,#app{width:100%;height:100%;margin:0}body{overflow:hidden;background:var(--bg);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;color:var(--ink)}button,textarea{font:inherit;color:inherit}button{cursor:pointer}svg{display:block}.app{height:100vh;display:grid;grid-template-columns:var(--side) minmax(0,1fr) var(--rail);background:#ddd}.app.drawerOpen{grid-template-columns:var(--side) minmax(0,1fr) calc(var(--rail) + var(--drawer))}.sidebar{background:var(--dark);color:#e7e7e4;display:grid;grid-template-rows:58px 46px minmax(0,1fr) 50px;border-right:1px solid #25262a}.brand{display:flex;align-items:center;gap:10px;padding:0 14px}.brandMark{width:30px;height:30px;border-radius:9px;background:linear-gradient(145deg,#fff,#c4c8ce);color:#151618;display:grid;place-items:center;font-size:10px;font-weight:850}.brand b{font-size:13px}.brand small{display:block;color:#70757d;font-size:9px;margin-top:2px}.mode{margin:4px 12px 8px;padding:3px;border:1px solid #2a2c30;background:#18191c;border-radius:10px;display:grid;grid-template-columns:1fr 1fr}.mode button{border:0;border-radius:7px;background:transparent;color:#7e848e;font-size:10px;font-weight:650}.mode button.active{background:#f2f2f0;color:#17181a}.scroll{overflow:auto;padding:0 8px 12px}.navBtn,.project{width:100%;border:0;background:transparent;color:#a6aab1;border-radius:9px;text-align:left;display:flex;align-items:center;gap:9px;padding:8px 9px;font-size:10px}.navBtn:hover,.navBtn.active,.project:hover,.project.active{background:#1b1d20;color:#fff}.ico{width:18px;height:18px;display:grid;place-items:center;color:#8b919a;flex:0 0 auto}.section{display:flex;justify-content:space-between;padding:12px 8px 6px;color:#666c75;font-size:8px;letter-spacing:.08em;text-transform:uppercase}.project{align-items:flex-start}.project .meta{min-width:0;flex:1}.project b{font-size:10px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.project small{font-size:8px;color:#646a73;display:block;margin-top:3px}.threads{padding:0 7px 6px 35px}.thread{width:100%;border:0;background:transparent;color:#70757d;font-size:9px;text-align:left;border-radius:7px;padding:6px}.thread:hover{background:#1b1d20;color:#c5c9ce}.bottom{border-top:1px solid #242528;padding:8px 9px;display:flex;align-items:center;gap:5px}.user{border:0;background:transparent;color:#ddd;display:flex;align-items:center;gap:8px;flex:1;text-align:left}.avatar{width:28px;height:28px;border-radius:9px;background:#e7e7e4;color:#202124;display:grid;place-items:center;font-size:9px;font-weight:800}.iconBtn{width:30px;height:30px;border:0;border-radius:8px;background:transparent;color:#777d86;display:grid;place-items:center;position:relative}.iconBtn:hover{background:#1d1f22;color:#fff}.iconBtn.active{background:#f0f0ee;color:#17181a}.dot{position:absolute;right:3px;top:3px;width:6px;height:6px;border-radius:50%;background:#d95a64}.main{min-width:0;display:grid;grid-template-rows:58px minmax(0,1fr);background:var(--bg)}.topbar{height:58px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 18px}.topTitle{flex:1}.topTitle b{font-size:12px}.topTitle small{display:block;font-size:9px;color:var(--muted);margin-top:3px}.workspace{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:radial-gradient(circle at 50% -25%,#fff 0,#f7f7f5 45%,#f0f0ee 100%)}.tabs{height:44px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.8);display:flex;align-items:end;padding:0 18px;gap:4px}.tabs button{height:36px;border:0;background:transparent;color:#7f8389;padding:0 10px;font-size:10px}.tabs button.active{color:#17181a;font-weight:700;box-shadow:inset 0 -2px 0 #17181a}.content{min-height:0;overflow:auto;padding:20px 22px 42px}.page{max-width:1040px;margin:0 auto}.hero{min-height:45vh;display:grid;place-items:center;text-align:center}.hero h1{font-size:28px;font-weight:620;margin:0}.hero p{font-size:11px;color:#878b91;line-height:1.7}.suggestions{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:560px;margin:20px auto 0}.suggestion{border:1px solid #e0e1de;background:#fff;border-radius:12px;padding:11px;text-align:left;color:#555a61;font-size:10px}.suggestion:hover{background:#f7f7f5}.composerWrap{padding:9px 16px 14px;background:linear-gradient(180deg,rgba(240,240,238,0),rgba(240,240,238,.95) 28%)}.composer{max-width:860px;margin:0 auto;background:#fff;border:1px solid #d8d9d6;border-radius:16px;padding:9px;box-shadow:0 14px 40px rgba(32,33,36,.10)}.composerLabel{font-size:8px;color:#858a90;margin:1px 4px 5px}.composerLabel b{color:#535960}.composer textarea{width:100%;height:48px;border:0;outline:none;resize:none;background:transparent;padding:5px 6px;font-size:11px}.bar{display:flex;align-items:center;justify-content:space-between}.left,.right{display:flex;gap:4px}.toolBtn{height:29px;min-width:29px;border:0;border-radius:8px;background:#f3f3f1;color:#666b72;display:grid;place-items:center;padding:0 8px;font-size:9px}.send{width:31px;height:31px;border:0;border-radius:9px;background:#1b1c1f;color:#fff;display:grid;place-items:center}.relative{position:relative}.plusMenu{position:absolute;bottom:38px;left:0;width:220px;border:1px solid #dddeda;border-radius:12px;background:#fff;padding:6px;box-shadow:0 18px 50px rgba(24,25,28,.18);z-index:50}.plusMenu button{width:100%;border:0;background:transparent;border-radius:8px;padding:8px;text-align:left;font-size:9px;color:#555a61}.plusMenu button:hover{background:#f2f2f0}.dashTop{display:flex;align-items:start;gap:12px;margin-bottom:14px}.dashTop>div{flex:1}.dashTop h2{font-size:20px;margin:0}.dashTop p{font-size:10px;color:#858991;margin:6px 0 0}.close{width:30px;height:30px;border:1px solid #dddeda;background:#fff;color:#777c83;border-radius:9px}.grid{display:grid;grid-template-columns:1.25fr .9fr .9fr;gap:10px}.card{background:#fff;border:1px solid #e0e1de;border-radius:14px;padding:13px}.card.wide{grid-column:span 2}.card h3{font-size:10px;margin:0 0 10px;display:flex;justify-content:space-between}.card h3 span{color:#9ca0a6;font-size:8px;font-weight:500}.item{border:1px solid #ecece9;background:#fafaf8;border-radius:10px;padding:9px;margin-bottom:7px}.item b{font-size:10px}.item small{display:block;color:#8c9096;font-size:8px;margin-top:4px}.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0ed}.row:last-child{border-bottom:0}.status{width:7px;height:7px;border-radius:50%;background:#8490ff}.status.g{background:#58b88c}.status.a{background:#e0ab58}.status.r{background:#df6b6b}.row b{font-size:9px;display:block}.row small{font-size:8px;color:#91959b;display:block;margin-top:3px}.tag{font-size:8px;border-radius:99px;padding:3px 6px;background:#f0f0ed;color:#747980}.tag.r{background:#fff0f0;color:#b65353}.tag.b{background:#eef1ff;color:#526bcb}.tag.g{background:#eaf8f1;color:#2d805b}.filters{display:flex;gap:4px}.filters button{border:1px solid #dedfdd;background:#fff;color:#777b82;border-radius:8px;padding:6px 8px;font-size:9px}.filters button.active{background:#1d1e21;color:#fff}.activityHead{display:flex;align-items:center;margin-bottom:12px}.activityHead h2{font-size:16px;margin:0;flex:1}.activityList{background:#fff;border:1px solid #e1e2df;border-radius:14px;padding:4px 13px}.activity{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:10px;padding:12px 0;border-bottom:1px solid #efefec}.activity:last-child{border-bottom:0}.activityIcon{width:30px;height:30px;border-radius:9px;background:#f0f1f3;display:grid;place-items:center;font-size:8px}.activity b{font-size:10px}.activity p{font-size:9px;color:#6f747b;margin:4px 0 0}.activity time{font-size:8px;color:#a1a5aa}.memberGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.member{background:#fff;border:1px solid #e0e1de;border-radius:12px;padding:11px}.member b{font-size:10px}.member small{font-size:8px;color:#8e9298}.muted{font-size:8px;color:#71767d;line-height:1.7;margin-top:8px}.light{border:1px solid #dedfdd;background:#fff;color:#555a61;border-radius:8px;padding:6px 9px;font-size:9px}.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.listRow{display:flex;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid #efefec}.listRow:last-child{border-bottom:0}.listRow>div{flex:1}.listRow b{font-size:9px}.listRow small{display:block;font-size:8px;color:#94989e;margin-top:3px}.tools{background:#f4f4f2;border-left:1px solid #dedfdd;display:grid;grid-template-columns:52px minmax(0,1fr)}.rail{background:#f6f6f4;display:flex;flex-direction:column;align-items:center;padding:9px 0;gap:7px;border-right:1px solid #e2e2df}.rail .iconBtn{color:#666b72}.rail .iconBtn:hover,.rail .iconBtn.active{background:#fff;color:#202124}.drawer{display:none;background:#fff;min-width:0}.drawerOpen .drawer{display:grid;grid-template-rows:58px minmax(0,1fr)}.drawerHead{height:58px;border-bottom:1px solid #e5e5e2;display:flex;align-items:center;padding:0 12px}.drawerHead b{font-size:11px;flex:1}.drawerBody{overflow:auto;padding:11px}.file{display:flex;gap:8px;align-items:center;padding:9px;border:1px solid #ecece8;border-radius:9px;margin-bottom:6px}.file>div{flex:1}.file b{font-size:9px}.file small{display:block;color:#93979d;font-size:8px}.browser{height:220px;border:1px solid #e3e3df;border-radius:10px;background:linear-gradient(145deg,#fff,#f2f2ef);display:grid;place-items:center;color:#8b8f95;font-size:9px}.terminal{background:#111315;color:#c9ced6;border-radius:10px;padding:10px;font:9px/1.65 ui-monospace,monospace;min-height:220px;white-space:pre-wrap}.sideBubble{font-size:9px;line-height:1.55;padding:8px;border-radius:9px;background:#f2f2ef;color:#656a70;margin-bottom:7px}.notice{position:fixed;right:70px;bottom:18px;background:#1d1f22;color:#fff;border-radius:11px;padding:10px 12px;width:280px;box-shadow:0 18px 50px rgba(0,0,0,.25);z-index:100}.notice b{font-size:10px}.notice p{font-size:9px;color:#9fa4ab;margin:5px 0 0}@media(max-width:1180px){:root{--side:230px;--drawer:280px}.grid{grid-template-columns:1fr 1fr}.card.wide{grid-column:span 2}.memberGrid{grid-template-columns:repeat(2,1fr)}}
+
+.focusHero{border:1px solid #dedfda;background:linear-gradient(145deg,#fff,#f8f8f5);border-radius:12px;padding:13px;margin-bottom:8px}
+.focusMeta{display:flex;align-items:center;gap:5px;margin-bottom:9px}.focusBadge{font-size:8px;border-radius:99px;padding:4px 7px;background:#17181a;color:#fff}.focusBadge.priority{background:#fff0f0;color:#b25151;border:1px solid #f1d7d7}.focusHero h4{font-size:13px;margin:0 0 5px}.focusHero p{font-size:9px;color:#757a81;line-height:1.55;margin:0}.nextAction{margin-top:10px;padding:8px 9px;border-radius:9px;background:#f1f2f0}.nextAction small{display:block;color:#969a9f;font-size:8px;margin-bottom:3px}.nextAction b{font-size:9px}.focusReason{font-size:8px;color:#72777e;margin-top:8px;line-height:1.55}.focusActions{display:flex;gap:6px;margin-top:10px}.primary{border:0;background:#1b1c1f;color:#fff;border-radius:8px;padding:7px 10px;font-size:9px}.primary:hover{background:#303237}.linkBtn{border:0;background:transparent;color:#6a7078;font-size:8px;padding:5px 2px}.explainBox{margin-top:8px;border-top:1px solid #ecece8;padding-top:8px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.explainBox div{font-size:8px;color:#747980}.explainBox b{color:#363a40;font-size:8px}.actionHero{padding:9px;border:1px solid #ecece8;border-radius:10px;background:#fafaf8;margin-bottom:7px}.actionHero .topline{display:flex;align-items:center;gap:5px;margin-bottom:5px}.actionHero h4{font-size:10px;margin:0}.actionHero p{font-size:8px;line-height:1.5;color:#7b8087;margin:4px 0 8px}.miniAction{display:flex;align-items:center;gap:7px;padding:8px 0;border-top:1px solid #efefec}.miniAction:first-of-type{border-top:0}.miniAction>div{flex:1}.miniAction b{font-size:9px}.miniAction small{display:block;font-size:8px;color:#91959a;margin-top:2px}.textAction{border:1px solid #dedfdd;background:#fff;border-radius:7px;padding:5px 7px;font-size:8px;color:#555a61}.dashboardSummary{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.dashboardSummary span{font-size:8px;color:#73787f;background:#eeeFec;border-radius:99px;padding:4px 7px}
+
+</style>
+
+<style id="member-dm-extra">
+.memberDirectory{display:grid;gap:22px}
+.memberSection h3{font-size:11px;margin:0 0 10px;color:#565b62}
+.memberCards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.memberMini{position:relative;background:#fff;border:1px solid #e0e1de;border-radius:13px;padding:13px;min-height:112px;cursor:pointer}
+.memberMini:hover{border-color:#c9cbc8;box-shadow:0 8px 24px rgba(20,22,25,.06)}
+.memberMini .avatarLg{width:42px;height:42px;border-radius:12px;background:#eef0f2;display:grid;place-items:center;font-size:10px;font-weight:750;margin-bottom:9px}
+.memberMini b{display:block;font-size:10px}
+.memberMini small{display:block;font-size:8px;color:#8b9096;margin-top:4px}
+.memberChatBtn{width:100%;margin-top:10px;position:relative;z-index:2}
+.unreadBubble{position:absolute;right:8px;top:8px;min-width:20px;height:20px;padding:0 5px;border-radius:99px;background:#df3f45;color:#fff;border:2px solid #fff;display:grid;place-items:center;font-size:8px;font-weight:700}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:9px;color:#7b8087;margin-bottom:12px}
+.breadcrumb button{border:0;background:transparent;padding:0;color:#666b72;cursor:pointer}
+.breadcrumb button:hover{color:#1d1f22;text-decoration:underline}
+.breadcrumbBack{width:22px;height:22px;display:grid;place-items:center;border-radius:7px!important;font-size:14px!important;line-height:1;color:#5f646c!important;margin-right:-1px}.breadcrumbBack:hover{background:#f0f1f4!important;color:#1d1f22!important;text-decoration:none!important}
+.dmPanel{background:#fff;border:1px solid #e1e2df;border-radius:14px;min-height:360px;padding:14px}
+.dmHead{display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid #eeeeeb}
+.dmHead .avatarLg{width:38px;height:38px;border-radius:11px;background:#eef0f2;display:grid;place-items:center;font-size:10px;font-weight:750}
+.dmHead b{font-size:11px}
+.dmHead small{display:block;font-size:8px;color:#8c9197;margin-top:3px}
+.dmMessages{padding:16px 0;display:grid;gap:10px}
+.dmLine{display:flex}.dmLine.me{justify-content:flex-end}
+.dmBubble{max-width:62%;padding:9px 11px;border-radius:12px;background:#f1f2f3;font-size:9px;line-height:1.55;color:#454a51}
+.dmLine.me .dmBubble{background:#1d1f22;color:#fff}
+@media(max-width:1100px){.memberCards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+
+<style id="premium-ui-v07">
+/* V0.7 visual layer — structure and application behavior intentionally unchanged */
+:root{
+  --side:264px;
+  --rail:58px;
+  --drawer:318px;
+  --bg:#f3f4f7;
+  --surface:rgba(255,255,255,.88);
+  --line:rgba(21,25,32,.09);
+  --ink:#17191d;
+  --muted:#777d88;
+  --dark:#111216;
+  --accent:#6d5dfc;
+  --accent-2:#8d7fff;
+  --accent-soft:#efedff;
+  --shadow-sm:0 1px 2px rgba(21,25,32,.04),0 5px 16px rgba(21,25,32,.045);
+  --shadow-md:0 16px 44px rgba(21,25,32,.09),0 2px 8px rgba(21,25,32,.04);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+html{background:#111216}
+body{
+  background:var(--bg);
+  font-family:Inter,"SF Pro Display","SF Pro Text",-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans CJK SC",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+button,textarea{-webkit-tap-highlight-color:transparent}
+button{transition:background-color .2s ease,color .2s ease,border-color .2s ease,box-shadow .24s var(--ease),transform .24s var(--ease)}
+button:active{transform:scale(.97)}
+button:focus-visible,textarea:focus-visible{outline:3px solid rgba(109,93,252,.2);outline-offset:2px}
+svg{stroke-linecap:round;stroke-linejoin:round}
+
+/* Shell */
+.app{
+  background:var(--bg);
+  transition:grid-template-columns .42s var(--ease);
+}
+.sidebar{
+  position:relative;
+  overflow:hidden;
+  border-right:1px solid rgba(255,255,255,.055);
+  background:
+    radial-gradient(circle at 12% -5%,rgba(127,112,255,.18),transparent 27%),
+    linear-gradient(175deg,#17181d 0%,#101115 48%,#0d0e11 100%);
+  box-shadow:12px 0 34px rgba(14,15,18,.07);
+}
+.sidebar::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.2;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:100% 4px;
+}
+.sidebar>*{position:relative;z-index:1}
+.brand{height:64px;padding:0 16px;gap:11px}
+.brandMark{
+  width:34px;height:34px;border-radius:11px;
+  background:linear-gradient(145deg,#fafaff 5%,#d9d5ff 92%);
+  box-shadow:0 8px 26px rgba(109,93,252,.24),inset 0 0 0 1px rgba(255,255,255,.8);
+  font-size:10px;letter-spacing:.06em;
+}
+.brand b{font-size:13px;letter-spacing:-.01em;color:#f5f5f8}
+.brand small{font-size:9px;color:#747986;letter-spacing:.015em}
+.mode{
+  margin:3px 12px 10px;padding:4px;
+  border-color:rgba(255,255,255,.07);
+  background:rgba(255,255,255,.035);
+  border-radius:11px;
+}
+.mode button{height:29px;font-size:10px;border-radius:8px}
+.mode button:hover:not(.active){color:#c0c3cb;background:rgba(255,255,255,.045)}
+.mode button.active{
+  background:linear-gradient(180deg,#fff,#eeedf5);
+  box-shadow:0 4px 14px rgba(0,0,0,.24);
+}
+.scroll{padding:2px 9px 14px;scrollbar-width:thin;scrollbar-color:#303239 transparent}
+.navBtn,.project{min-height:36px;padding:8px 10px;border-radius:9px;font-size:11px}
+.navBtn:hover,.navBtn.active,.project:hover,.project.active{background:rgba(255,255,255,.07)}
+.navBtn.active,.project.active{box-shadow:inset 0 0 0 1px rgba(255,255,255,.045)}
+.navBtn.active .ico,.project.active .ico{color:#a99fff}
+.ico{color:#737986;transition:color .2s ease,transform .25s var(--ease)}
+.navBtn:hover .ico,.project:hover .ico{color:#c7c3ff;transform:translateX(1px)}
+.section{padding:15px 9px 7px;font-size:8px;color:#5e636d;letter-spacing:.12em}
+.project b{font-size:10px;font-weight:620}
+.project small{font-size:8px;color:#666c77}
+.threads{padding-left:37px}
+.thread{font-size:9px;padding:7px 8px;border-radius:7px;border-left:1px solid rgba(255,255,255,.06)}
+.thread:hover{background:rgba(255,255,255,.055);color:#e5e5ea;transform:translateX(2px)}
+.bottom{height:56px;border-top-color:rgba(255,255,255,.065);background:rgba(5,6,8,.3);backdrop-filter:blur(16px)}
+.avatar{border-radius:10px;background:linear-gradient(145deg,#f8f8fc,#dad6ff);box-shadow:0 5px 14px rgba(0,0,0,.18)}
+.bottom .iconBtn:hover{background:rgba(255,255,255,.08)}
+.dot{width:7px;height:7px;background:#ff6673;box-shadow:0 0 0 3px #111216,0 0 12px rgba(255,102,115,.7)}
+
+.main{min-height:0;overflow:hidden;grid-template-rows:64px minmax(0,1fr);background:var(--bg)}
+.topbar{
+  height:64px;padding:0 24px;
+  background:rgba(255,255,255,.78);
+  border-bottom-color:var(--line);
+  backdrop-filter:blur(22px) saturate(150%);
+  position:relative;z-index:20;
+}
+.topTitle b{font-size:13px;font-weight:680;letter-spacing:-.012em}
+.topTitle small{font-size:9px;margin-top:4px;color:#858a95}
+.workspace{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 17% 0%,rgba(142,127,255,.09),transparent 30%),
+    radial-gradient(circle at 86% 12%,rgba(84,160,255,.055),transparent 25%),
+    linear-gradient(180deg,#f8f8fa 0%,#f1f2f5 100%);
+}
+.workspace::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.33;
+  background-image:radial-gradient(rgba(60,64,72,.12) .55px,transparent .55px);
+  background-size:18px 18px;
+  mask-image:linear-gradient(to bottom,black,transparent 68%);
+}
+.workspace>*{position:relative}
+.workspace>.tabs{grid-row:1}
+.workspace>.content{grid-row:2}
+.workspace>.composerWrap{grid-row:3}
+.tabs{height:48px;padding:0 23px;gap:9px;background:rgba(255,255,255,.66);backdrop-filter:blur(18px);border-bottom-color:var(--line)}
+.tabs button{height:40px;padding:0 11px;font-size:11px;position:relative}
+.tabs button.active{box-shadow:none;color:#22242a}
+.tabs button.active::after{content:"";position:absolute;left:10px;right:10px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:linear-gradient(90deg,var(--accent),#9488ff);box-shadow:0 -3px 10px rgba(109,93,252,.28)}
+
+/* Content rhythm */
+.content{padding:28px 30px 54px;scrollbar-width:thin;scrollbar-color:#c7c9d1 transparent}
+.page{max-width:1080px;animation:pageIn .52s var(--ease) both}
+.dashTop{align-items:center;margin-bottom:20px}
+.dashTop h2,.activityHead h2{font-size:22px;font-weight:680;letter-spacing:-.035em;color:#1b1d22}
+.dashTop p{font-size:10px;line-height:1.6;color:#7d828c}
+.close{border-color:var(--line);box-shadow:var(--shadow-sm);border-radius:10px}
+.close:hover{transform:rotate(5deg);background:#fff;color:#343740;box-shadow:0 8px 20px rgba(21,25,32,.08)}
+.grid{grid-template-columns:1.28fr .9fr .9fr;gap:13px}
+.card,.activityList,.dmPanel,.memberMini{
+  border-color:rgba(28,31,38,.085);
+  background:rgba(255,255,255,.86);
+  box-shadow:var(--shadow-sm);
+  backdrop-filter:blur(14px);
+}
+.card{
+  border-radius:17px;padding:16px;
+  transition:border-color .25s ease,box-shadow .32s var(--ease),transform .32s var(--ease);
+  animation:cardIn .48s var(--ease) both;
+}
+.grid .card:nth-child(2){animation-delay:.055s}.grid .card:nth-child(3){animation-delay:.1s}.grid .card:nth-child(4){animation-delay:.145s}
+.card:hover{border-color:rgba(109,93,252,.18);box-shadow:0 15px 40px rgba(35,38,47,.08);transform:translateY(-2px)}
+.card h3{font-size:11px;margin-bottom:13px;color:#24262c}
+.card h3 span{font-size:8px;color:#9297a1}
+.item{border-color:rgba(28,31,38,.07);background:linear-gradient(135deg,rgba(248,248,251,.92),rgba(242,242,247,.78));border-radius:12px;padding:12px}
+.item b{font-size:11px}.item small{font-size:9px;margin-top:5px}
+.row{padding:10px 0;gap:10px;border-bottom-color:rgba(28,31,38,.065)}
+.row b{font-size:10px}.row small{font-size:8px;margin-top:4px}
+.status{box-shadow:0 0 0 4px rgba(132,144,255,.11)}
+.status.g{box-shadow:0 0 0 4px rgba(88,184,140,.11)}.status.a{box-shadow:0 0 0 4px rgba(224,171,88,.12)}.status.r{box-shadow:0 0 0 4px rgba(223,107,107,.11)}
+.tag{padding:4px 7px;border:1px solid rgba(28,31,38,.04)}
+.primary{background:linear-gradient(135deg,#24262c,#111216);box-shadow:0 7px 16px rgba(17,18,22,.14);padding:8px 12px}
+.primary:hover{background:linear-gradient(135deg,#6d5dfc,#5545e7);box-shadow:0 10px 22px rgba(109,93,252,.24);transform:translateY(-1px)}
+.light{min-height:30px;border-color:rgba(28,31,38,.1);border-radius:9px;background:rgba(255,255,255,.86);font-size:9px}
+.light:hover{border-color:rgba(109,93,252,.22);background:#fff;color:#4f43cb;box-shadow:0 6px 16px rgba(35,38,47,.07);transform:translateY(-1px)}
+.hero{min-height:49vh}
+.hero h1{font-size:36px;font-weight:660;letter-spacing:-.05em;background:linear-gradient(135deg,#17191d 15%,#5e54bc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:12px;max-width:650px;margin:14px auto 0}
+.suggestions{gap:10px;max-width:650px;margin-top:26px}
+.suggestion{min-height:52px;border-color:rgba(28,31,38,.09);border-radius:14px;padding:13px 14px;font-size:10px;box-shadow:var(--shadow-sm);background:rgba(255,255,255,.84)}
+.suggestion:hover{background:#fff;border-color:rgba(109,93,252,.22);color:#5549d1;box-shadow:0 12px 28px rgba(35,38,47,.08);transform:translateY(-2px)}
+
+/* Activity, members and DM */
+.activityHead{margin-bottom:16px;gap:16px}
+.filters{gap:6px;padding:3px;background:rgba(231,232,237,.8);border-radius:11px}
+.filters button{border:0;background:transparent;padding:7px 10px;border-radius:8px;font-size:9px}
+.filters button:hover{background:rgba(255,255,255,.7)}
+.filters button.active{background:#fff;color:#302a78;box-shadow:0 3px 10px rgba(23,25,31,.08)}
+.activityList{border-radius:17px;padding:5px 16px;overflow:hidden}
+.activity{grid-template-columns:40px minmax(0,1fr) auto;padding:15px 2px;border-bottom-color:rgba(28,31,38,.065);animation:listIn .42s var(--ease) both}
+.activity:nth-child(2){animation-delay:.04s}.activity:nth-child(3){animation-delay:.08s}.activity:nth-child(4){animation-delay:.12s}
+.activityIcon{width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,#f2f1ff,#e7e5fb);color:#5f53cf;font-weight:700}
+.activity b{font-size:10px}.activity p{font-size:9px;line-height:1.55}
+.memberDirectory{gap:26px}
+.memberSection h3{font-size:12px;color:#444852}
+.memberCards{gap:12px}
+.memberMini{border-radius:16px;padding:15px;min-height:126px;overflow:hidden;transition:border-color .25s ease,box-shadow .32s var(--ease),transform .32s var(--ease);animation:cardIn .45s var(--ease) both}
+.memberMini::after{content:"";position:absolute;width:80px;height:80px;right:-42px;bottom:-48px;border-radius:50%;background:rgba(109,93,252,.08);transition:transform .4s var(--ease)}
+.memberMini:hover{border-color:rgba(109,93,252,.24);box-shadow:0 16px 36px rgba(35,38,47,.09);transform:translateY(-3px)}
+.memberMini:hover::after{transform:scale(1.55)}
+.memberMini .avatarLg,.dmHead .avatarLg{background:linear-gradient(145deg,#efedff,#dcd8ff);color:#574cc2;box-shadow:inset 0 0 0 1px rgba(109,93,252,.08)}
+.memberMini b{font-size:11px}.memberMini small{font-size:8px;line-height:1.45}
+.unreadBubble{background:linear-gradient(135deg,#ff5e72,#de334d);box-shadow:0 6px 14px rgba(222,51,77,.25)}
+.breadcrumb{font-size:10px;margin-bottom:15px}.breadcrumb button:hover{color:#5b4fd0}
+.dmPanel{border-radius:18px;padding:17px}
+.dmBubble{font-size:10px;padding:11px 13px;border-radius:14px;background:#f0f1f5}
+.dmLine.me .dmBubble{background:linear-gradient(135deg,#7162fa,#5d4ee6);box-shadow:0 8px 18px rgba(93,78,230,.18)}
+
+/* Composer and tool drawer */
+.composerWrap{padding:12px 22px 18px;background:linear-gradient(180deg,rgba(241,242,245,0),rgba(241,242,245,.86) 35%)}
+.composer{
+  max-width:900px;border:1px solid rgba(28,31,38,.11);border-radius:19px;padding:11px;
+  background:rgba(255,255,255,.89);backdrop-filter:blur(24px) saturate(150%);
+  box-shadow:0 20px 54px rgba(31,34,42,.12),0 2px 8px rgba(31,34,42,.04);
+  transition:border-color .25s ease,box-shadow .32s var(--ease),transform .32s var(--ease);
+}
+.composer:focus-within{border-color:rgba(109,93,252,.32);box-shadow:0 24px 64px rgba(31,34,42,.14),0 0 0 4px rgba(109,93,252,.07);transform:translateY(-2px)}
+.composerLabel{font-size:8px;margin:1px 5px 6px;color:#8b909a}.composerLabel b{color:#5a4ed0;letter-spacing:.015em}
+.composer textarea{height:54px;padding:6px 7px;font-size:12px;line-height:1.5}
+.composer textarea::placeholder{color:#989da7}
+.toolBtn{height:32px;min-width:32px;border-radius:9px;background:#f1f2f5;color:#656a75}
+.toolBtn:hover{background:var(--accent-soft);color:#5e52ce;transform:translateY(-1px)}
+.send{width:34px;height:34px;border-radius:10px;background:linear-gradient(145deg,#292b31,#121318);box-shadow:0 7px 16px rgba(17,18,22,.18)}
+.send:hover{background:linear-gradient(145deg,#7769ff,#5d4ee6);box-shadow:0 10px 22px rgba(93,78,230,.28);transform:translateY(-1px)}
+.plusMenu{bottom:42px;width:230px;border-color:rgba(28,31,38,.1);border-radius:14px;padding:7px;box-shadow:var(--shadow-md);animation:menuIn .22s var(--ease) both;transform-origin:bottom left}
+.plusMenu button{padding:9px;border-radius:9px;font-size:10px}
+.plusMenu button:hover{background:var(--accent-soft);color:#584ccd;transform:translateX(2px)}
+.tools{background:#f1f2f5;border-left-color:var(--line)}
+.rail{width:calc(var(--rail) - 1px);background:rgba(246,247,249,.86);backdrop-filter:blur(18px);border-right-color:var(--line);padding-top:12px}
+.rail .iconBtn{width:34px;height:34px;border-radius:10px}
+.rail .iconBtn:hover,.rail .iconBtn.active{background:#fff;color:#5d51ce;box-shadow:0 6px 18px rgba(31,34,42,.08);transform:translateY(-1px)}
+.drawer{background:rgba(255,255,255,.9);backdrop-filter:blur(22px)}
+.drawerHead{height:64px;border-bottom-color:var(--line);padding:0 15px}.drawerHead b{font-size:12px}
+.drawerBody{padding:14px}
+.file{padding:11px;border-color:rgba(28,31,38,.08);border-radius:11px;background:rgba(248,248,250,.8);transition:.22s ease}
+.file:hover{border-color:rgba(109,93,252,.17);background:#fff;transform:translateX(2px)}
+.file b{font-size:10px}.file small{font-size:8px}
+.browser,.terminal,.sideBubble{border-radius:12px}
+.notice{right:78px;bottom:22px;width:300px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(22,23,28,.94);backdrop-filter:blur(20px);box-shadow:0 22px 54px rgba(0,0,0,.28);animation:toastIn .38s var(--ease) both}
+.notice b{font-size:11px}.notice p{font-size:9px;line-height:1.45}
+
+/* Scrollbars */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(76,80,91,.18);border:2px solid transparent;background-clip:padding-box;border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:rgba(76,80,91,.3);border:2px solid transparent;background-clip:padding-box}
+
+/* Motion */
+@keyframes pageIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px) scale(.992)}to{opacity:1;transform:none}}
+@keyframes listIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+@keyframes menuIn{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+
+/* Responsive compatibility, without changing information architecture */
+@media(max-width:1180px){
+  :root{--side:228px;--drawer:286px}
+  .content{padding:24px 22px 48px}
+  .grid{grid-template-columns:1fr 1fr}.card.wide{grid-column:span 2}
+  .memberGrid,.memberCards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:860px){
+  :root{--side:82px;--rail:52px;--drawer:260px}
+  .sidebar{grid-template-columns:minmax(0,1fr)}
+  .brand,.mode,.scroll,.bottom{min-width:0;max-width:100%}
+  .brand{justify-content:center;padding:0}.brand>div:last-child{display:none}.navBtn{font-size:0}.brandMark{flex:0 0 auto}
+  .mode{grid-template-columns:1fr;margin-inline:9px}.mode button{font-size:0}.mode button::after{font-size:9px}.mode button[data-mode="chat"]::after{content:"聊"}.mode button[data-mode="work"]::after{content:"工"}
+  .section,.project .meta,.project>span:last-child,.threads,.thread,.bottom .user b{display:none}
+  .navBtn,.project{justify-content:center;padding:8px}.navBtn .ico,.project .ico{margin:0}
+  .bottom{padding:8px 7px;justify-content:center}.bottom .user{flex:0 0 auto}.bottom>.iconBtn:nth-of-type(1),.bottom>.iconBtn:nth-of-type(2){display:none}
+  .topbar{padding:0 18px}.grid{grid-template-columns:1fr}.card.wide{grid-column:span 1}
+  .two{grid-template-columns:1fr}.composerWrap{padding-inline:14px}.content{padding:22px 17px 44px}
+}
+@media(max-width:640px){
+  :root{--side:64px;--rail:0px;--drawer:0px}
+  .app,.app.drawerOpen{grid-template-columns:var(--side) minmax(0,1fr)}
+  .tools{display:none}.sidebar{grid-template-rows:58px 42px minmax(0,1fr) 52px}.brandMark{width:31px;height:31px}
+  .main{grid-template-rows:58px minmax(0,1fr)}.topbar{height:58px;padding:0 13px}.topbar>.light{font-size:0;min-width:32px;padding:0}.topbar>.light::after{content:"1";font-size:9px}
+  .topTitle small{max-width:210px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .content{padding:18px 12px 38px}.dashTop{margin-bottom:14px}.dashTop h2,.activityHead h2{font-size:19px}.dashTop p{font-size:9px}
+  .grid{gap:10px}.card{padding:14px;border-radius:15px}.activityHead{align-items:flex-start;flex-direction:column}.filters{width:100%;overflow:auto}.filters button{white-space:nowrap;flex:1}
+  .memberCards{grid-template-columns:1fr}.suggestions{grid-template-columns:1fr}.hero h1{font-size:29px}.hero p{font-size:10px}
+  .composerWrap{padding:8px 9px 11px}.composer{border-radius:16px}.composer textarea{height:46px;font-size:11px}.composerLabel{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dmBubble{max-width:80%}.notice{left:76px;right:12px;bottom:12px;width:auto}
+}
+@supports not (backdrop-filter:blur(1px)){
+  .topbar,.tabs,.composer,.drawer,.bottom,.rail{background:#fff}.bottom{background:#101115}.composer{background:#fff}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+</style>
+
+<style id="v08-project-nav">
+.projectRow{display:flex;align-items:stretch;gap:2px;position:relative}
+.projectRow .project{flex:1;min-width:0}
+.projectActions{display:flex;align-items:center;gap:1px;opacity:0;transform:translateX(3px);pointer-events:none;transition:opacity .18s ease,transform .18s ease}
+.projectRow:hover .projectActions,.projectRow:focus-within .projectActions{opacity:1;transform:none;pointer-events:auto}
+.projectMiniAction{width:26px;height:30px;border:0;border-radius:8px;background:transparent;color:#747a84;display:grid;place-items:center;font-size:14px;line-height:1}
+.projectMiniAction:hover{background:rgba(255,255,255,.08);color:#fff}
+.personalSectionAction{border:0;background:transparent;color:#777d86;width:22px;height:22px;border-radius:6px;font-size:15px;display:grid;place-items:center;padding:0}
+.personalSectionAction:hover{background:rgba(255,255,255,.08);color:#fff}
+.section.personalHeader{align-items:center}
+.section.personalHeader span:first-child{color:#717782}
+.projectContextHero{max-width:760px;margin:38px auto 0}
+.projectContextBadge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:99px;background:var(--accent-soft);color:#5a4dca;font-size:9px;font-weight:650;margin-bottom:14px}
+.projectContextCard{background:rgba(255,255,255,.82);border:1px solid rgba(28,31,38,.085);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm);backdrop-filter:blur(14px)}
+.projectContextCard h1{font-size:26px;letter-spacing:-.04em;margin:0 0 8px}
+.projectContextCard p{font-size:10px;color:#7d828c;line-height:1.7;margin:0}
+.contextPills{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.contextPills span{font-size:8px;padding:5px 8px;border-radius:99px;background:#f0f1f5;color:#6b7079}
+.contextNote{margin-top:16px;padding-top:14px;border-top:1px solid rgba(28,31,38,.07);font-size:9px;color:#7a7f88;line-height:1.65}
+.modalMask{position:fixed;inset:0;z-index:400;background:rgba(12,13,16,.38);backdrop-filter:blur(8px);display:grid;place-items:center;padding:24px}
+.projectModal{width:min(460px,100%);border-radius:20px;background:rgba(255,255,255,.96);border:1px solid rgba(28,31,38,.11);box-shadow:0 30px 90px rgba(15,16,20,.28);padding:20px}
+.projectModalHead{display:flex;align-items:start;gap:12px;margin-bottom:16px}
+.projectModalHead>div{flex:1}
+.projectModalHead h3{font-size:16px;margin:0 0 5px}.projectModalHead p{font-size:9px;color:#858a94;margin:0;line-height:1.5}
+.formField{margin-top:12px}.formField label{display:block;font-size:9px;font-weight:650;color:#555b64;margin-bottom:6px}
+.formField input,.formField textarea{width:100%;border:1px solid rgba(28,31,38,.12);border-radius:11px;background:#f8f8fa;padding:10px 11px;font-size:11px;outline:none}
+.formField textarea{height:80px;resize:none}
+.formField input:focus,.formField textarea:focus{border-color:rgba(109,93,252,.38);box-shadow:0 0 0 4px rgba(109,93,252,.07);background:#fff}
+.modalActions{display:flex;justify-content:flex-end;gap:7px;margin-top:17px}
+.emptyPersonal{padding:7px 9px;color:#5e646e;font-size:8px}
+@media(max-width:860px){.projectActions{opacity:1;pointer-events:auto}.projectMiniAction{width:24px}.projectRow .projectActions{display:none}.personalSectionAction{display:none}}
+</style>
+
+<style id="v09-work-context">
+/* Project nav: name / + / expand are independent actions */
+.projectRow{display:grid!important;grid-template-columns:minmax(0,1fr) 26px 26px;align-items:center;gap:2px}
+.projectRow .project{min-width:0;width:100%;padding-right:7px}
+.projectActions{display:contents!important;opacity:1!important;transform:none!important;pointer-events:auto!important}
+.projectMiniAction{width:26px;height:30px;border:0;border-radius:8px;background:transparent;color:#747a84;display:grid;place-items:center;font-size:14px;line-height:1}
+.projectMiniAction:hover{background:rgba(255,255,255,.08);color:#fff}
+.projectExpand{font-size:12px}
+.threads{padding-left:35px}
+.thread.active{background:rgba(109,93,252,.14);color:#d8d4ff;border-left-color:#8f82ff}
+
+/* Work-context conversation */
+.contextConversation{max-width:900px;margin:0 auto;padding-bottom:20px}
+.contextBreadcrumb{display:flex;align-items:center;gap:6px;margin-bottom:16px;font-size:9px;color:#848993}
+.contextBreadcrumb button{border:0;background:transparent;padding:0;color:#666c75;font-size:9px}
+.contextBreadcrumb button:hover{color:#5a4dca}
+.contextBadge{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:99px;background:var(--accent-soft);color:#5b4fd1;font-size:8px;font-weight:700;margin-bottom:10px}
+.contextIntro{background:rgba(255,255,255,.86);border:1px solid rgba(28,31,38,.09);border-radius:18px;padding:18px 19px;box-shadow:var(--shadow-sm);backdrop-filter:blur(14px);margin-bottom:22px}
+.contextIntro h1{font-size:22px;letter-spacing:-.035em;margin:0 0 7px}
+.contextIntro p{font-size:9px;color:#7b8089;line-height:1.65;margin:0}
+.contextMeta{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}
+.contextMeta span{font-size:8px;background:#f0f1f5;color:#696f79;border-radius:99px;padding:5px 8px}
+.contextDetails{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;padding-top:13px;border-top:1px solid rgba(28,31,38,.07)}
+.contextDetails div{font-size:8px;color:#858a93;line-height:1.55}
+.contextDetails b{display:block;font-size:9px;color:#3e434b;margin-bottom:3px}
+.workThread{display:grid;gap:14px;padding:2px 4px 20px}
+.workMsg{display:flex;gap:9px;align-items:flex-start}
+.workMsg.me{justify-content:flex-end}
+.workMsg .workAvatar{width:28px;height:28px;border-radius:9px;background:linear-gradient(145deg,#efedff,#ddd9ff);color:#5c50ca;display:grid;place-items:center;font-size:8px;font-weight:800;flex:0 0 auto}
+.workMsg.me .workAvatar{order:2;background:linear-gradient(145deg,#202228,#111216);color:#fff}
+.workBubble{max-width:70%;border-radius:14px;background:rgba(255,255,255,.84);border:1px solid rgba(28,31,38,.07);padding:10px 12px;box-shadow:var(--shadow-sm)}
+.workMsg.me .workBubble{background:linear-gradient(135deg,#7162fa,#5d4ee6);color:#fff;border-color:transparent}
+.workWho{font-size:8px;font-weight:700;color:#5a5f68;margin-bottom:4px}
+.workMsg.me .workWho{color:#eceaff}
+.workText{font-size:10px;line-height:1.6}
+.artifactCard{margin-top:9px;border:1px solid rgba(109,93,252,.14);background:#f8f7ff;border-radius:11px;padding:9px}
+.artifactCard b{font-size:9px;color:#5145bd}.artifactCard small{display:block;font-size:8px;color:#868b95;margin-top:3px}
+.artifactActions{display:flex;gap:5px;margin-top:8px}
+.artifactActions button{border:1px solid rgba(28,31,38,.1);background:#fff;border-radius:7px;padding:5px 7px;font-size:8px;color:#5e6269}
+
+/* Task list becomes actionable */
+.taskRowAction{cursor:pointer;border-radius:10px;padding-inline:8px;margin-inline:-8px}
+.taskRowAction:hover{background:#f5f4ff}
+.taskOpenBtn{border:1px solid rgba(109,93,252,.18);background:#fff;color:#5b4fd0;border-radius:7px;padding:5px 7px;font-size:8px}
+
+/* In work context, top project tabs are hidden; central object becomes conversation/task */
+.workspace.contextView{grid-template-rows:minmax(0,1fr) auto}
+.workspace.contextView .tabs{display:none}
+.workspace.contextView .content{padding-top:24px}
+
+@media(max-width:860px){
+  .projectRow{grid-template-columns:minmax(0,1fr)}
+  .projectMiniAction{display:none}
+  .contextDetails{grid-template-columns:1fr}
+  .workBubble{max-width:82%}
+}
+</style>
+
+<style id="v010-reminder-center">
+.topbar{position:relative}
+.topActions{display:flex;align-items:center;gap:8px}
+.reminderBtn{border:1px solid rgba(28,31,38,.09);background:rgba(255,255,255,.9);color:#575d66;border-radius:10px;padding:7px 10px;font-size:9px;display:flex;align-items:center;gap:6px;box-shadow:var(--shadow-sm)}
+.reminderBtn:hover{background:#fff;border-color:rgba(109,93,252,.18);color:#3d4148;transform:translateY(-1px)}
+.reminderBtn .count{min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--accent-soft);color:#5a4dca;display:grid;place-items:center;font-size:8px;font-weight:700}
+.reminderBtn.urgent{border-color:rgba(223,107,107,.18)}
+.reminderBtn.urgent .count{background:#fff0f0;color:#b65353}
+
+.reminderPopover{position:absolute;right:22px;top:54px;width:340px;z-index:120;background:rgba(255,255,255,.98);border:1px solid rgba(28,31,38,.1);border-radius:16px;box-shadow:0 24px 70px rgba(18,20,24,.18);backdrop-filter:blur(20px);overflow:hidden}
+.reminderHead{display:flex;align-items:center;padding:13px 14px;border-bottom:1px solid rgba(28,31,38,.07)}
+.reminderHead>div{flex:1}.reminderHead b{display:block;font-size:11px}.reminderHead small{display:block;font-size:8px;color:#8b9098;margin-top:3px}
+.reminderHead .linkBtn{font-size:8px;color:#6559d6}
+.reminderGroupTitle{font-size:8px;color:#9398a1;padding:10px 14px 4px;text-transform:uppercase;letter-spacing:.08em}
+.reminderItem{padding:11px 14px;border-bottom:1px solid rgba(28,31,38,.065)}
+.reminderItem:last-child{border-bottom:0}
+.reminderTopline{display:flex;align-items:center;gap:8px}
+.reminderTime{font-size:10px;font-weight:750;color:#30343a}
+.reminderDue{margin-left:auto;font-size:8px;color:#8a8f97}
+.reminderItem.urgent .reminderDue{color:#bc5959;font-weight:700}
+.reminderTitle{font-size:10px;font-weight:650;margin-top:5px;color:#32363d}
+.reminderMeta{font-size:8px;color:#8d929a;margin-top:3px;line-height:1.5}
+.reminderActions{display:flex;gap:6px;margin-top:8px}
+.reminderActions button{border:1px solid rgba(28,31,38,.09);background:#fff;color:#5b6068;border-radius:7px;padding:5px 7px;font-size:8px}
+.reminderActions button.primaryMini{background:#1e2024;color:#fff;border-color:#1e2024}
+.reminderActions button:hover{border-color:rgba(109,93,252,.22);color:#5549c1}
+.reminderActions button.primaryMini:hover{background:#5d4ee6;color:#fff}
+.reminderEmpty{padding:24px 16px;text-align:center;font-size:9px;color:#8c9199}
+
+.noticeDrawer{position:fixed;left:270px;bottom:66px;width:320px;z-index:130;background:rgba(24,26,31,.98);color:#fff;border:1px solid rgba(255,255,255,.07);border-radius:15px;box-shadow:0 24px 70px rgba(0,0,0,.28);overflow:hidden}
+.noticeDrawerHead{display:flex;align-items:center;padding:12px 13px;border-bottom:1px solid rgba(255,255,255,.08)}
+.noticeDrawerHead b{font-size:10px;flex:1}.noticeDrawerHead small{font-size:8px;color:#8f959e}
+.noticeListItem{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.065)}
+.noticeListItem:last-child{border-bottom:0}
+.noticeListItem b{font-size:9px}.noticeListItem p{font-size:8px;color:#9ca2ab;margin:4px 0 0;line-height:1.5}
+.noticeListItem.unread{background:rgba(109,93,252,.08)}
+.noticeListItem.unread::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#8d7fff;margin-right:6px;vertical-align:1px}
+
+@media(max-width:900px){
+  .reminderPopover{right:12px;width:min(340px,calc(100vw - 24px))}
+  .noticeDrawer{left:12px;bottom:62px;width:min(320px,calc(100vw - 24px))}
+}
+</style>
+</head>
+<body><div id="app"></div>
+<script>
+(()=>{
+const I={
+ chat:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>',
+ plug:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22v-5M9 8V2M15 8V2M18 8v4a6 6 0 0 1-12 0V8z"/></svg>',
+ auto:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4v6h6M20 20v-6h-6M5.6 15A8 8 0 0 0 19 9M18.4 9A8 8 0 0 0 5 15"/></svg>',
+ book:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4v15.5M6.5 2H20v15H6.5A2.5 2.5 0 0 0 4 19.5V4A2 2 0 0 1 6 2z"/></svg>',
+ spark:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/><path d="m19 14 .8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/></svg>',
+ swarm:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="m10.7 7.1-4.4 8.8M13.3 7.1l4.4 8.8M7.5 18h9"/></svg>',
+ file:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2h8l4 4v16H6zM14 2v5h5"/></svg>',
+ browser:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>',
+ term:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m4 7 5 5-5 5M11 17h9"/></svg>',
+ bell:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>',
+ gear:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9 7 7M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>',
+ play:'<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+ plus:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>',
+ mic:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg>',
+ send:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6"/></svg>',
+ x:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 6 12 12M18 6 6 18"/></svg>'
+};
+const projects=[{id:'employee',name:'员工端原型',meta:'P0 · 今天18:00',threads:['项目对话 1','功能分区讨论','原型评审准备']},{id:'huaci',name:'华磁 OS',meta:'交付中 · 本周',threads:['客户问答 Agent','本体方案确认']}];
+let personalProjects=[
+ {id:'personal_ai',name:'AI协作模式研究',meta:'个人项目',description:'研究 AI 原生协作模式与产品结构',threads:['产品定位','Agent设计']},
+ {id:'personal_new',name:'新产品研究',meta:'个人项目',description:'个人新产品探索',threads:[]},
+ {id:'personal_kb',name:'我的知识库项目',meta:'个人项目',description:'整理个人知识与研究资料',threads:[]}
+];
+
+const activities=[['张明','DEV','提交了「前端技术方案 V2」，等待项目评审。','10:42','member'],['陈曦','UX','完成 Task「员工端交互边界」，Result 已进入项目资产。','10:31','member'],['王超','QA','Task 状态由 Working → Blocked，原因：等待字段定义。','10:12','member'],['林川','PM','更新 Result「员工端原型 V5」。','09:48','mine'],['周总','CEO','确认 Decision：新版员工端采用“聊天 / 工作”双模式。','09:30','mine']];
+const members=[['林川','Product Manager / Task DRI','员工端产品原型','工作中'],['张明','前端开发','前端技术方案','等待评审'],['陈曦','交互设计','交互边界设计','已交付'],['王超','测试','验收规则','Blocked'],['Product Agent','专业 Agent','产品分析','待命'],['Prototype Agent','专业 Agent','交互原型','运行中']];
+const deptMembers=[['林川','Product Manager','员工端原型','工作中'],['陈曦','UX Designer','交互规范','工作中'],['张明','Frontend','前端实现','等待'],['周总','部门负责人','产品方向','在线'],['Product Agent','部门 Agent','产品分析','在线'],['Research Agent','部门 Agent','研究支持','待命']];
+const deptActivities=[['陈曦','UX','更新了「员工端交互规范 V2」。','10:36','member'],['张明','DEV','同步前端实现进度，等待产品结构确认。','10:18','member'],['Product Agent','AI','完成本周产品需求变化摘要。','09:55','member'],['林川','PM','提交员工端 MVP 功能分区初版。','09:42','mine'],['周总','LEAD','确认本周优先推进员工端 MVP。','09:20','mine']];
+const dmHistories={
+  '陈曦':[['陈曦','交互规范 V2 已经更新了，你看下这个版本。','10:41'],['林川','好，我下午评审前一起看。','10:43']],
+  '张明':[['张明','前端这边准备好了，就等结构最终确认。','10:18'],['林川','我下午评审完给你最终版。','10:20']],
+  '周总':[['周总','今天优先把员工端 MVP 结构确认下来。','09:20']],
+  '王超':[['王超','验收规则这边还在等字段定义。','10:12']],
+  'Product Agent':[['Product Agent','我已经同步当前工作上下文，可以继续协作。','09:55']],
+  'Prototype Agent':[['Prototype Agent','当前原型结构已加载，可以继续完善。','09:52']],
+  'Research Agent':[['Research Agent','已准备好研究支持。','09:50']]
+};
+
+
+const reminders=[
+  {id:'r1',time:'15:30',title:'员工端设计评审',meta:'员工端原型 · 6人',due:'还有 3 小时 48 分',type:'meeting',scope:'employee'},
+  {id:'r2',time:'18:00',title:'EMP-UI-01 截止',meta:'P0 · Working · 员工端原型',due:'还有 6 小时 18 分',type:'task',scope:'employee',urgent:true},
+  {id:'r3',time:'17:40',title:'日报确认',meta:'自动化将在 20 分钟前生成 Draft',due:'今天',type:'automation',scope:'global'}
+];
+const notifications=[
+  {id:'n1',title:'陈曦给你发来 2 条消息',meta:'员工端原型 · 10:31',unread:true},
+  {id:'n2',title:'Product Agent 已完成分析',meta:'功能分区讨论 · 10:12',unread:true},
+  {id:'n3',title:'EMP-UI-01 状态变更为 Working',meta:'员工端原型 · 09:48',unread:false}
+];
+const state={mode:'work',view:'daily',projectId:null,swarmId:null,tab:'activity',filter:'mine',memberDM:null,projectThread:null,taskContext:null,dash:true,drawer:false,tool:'files',nav:null,expanded:{employee:true,huaci:false,personal_ai:true,personal_new:false,personal_kb:false},plus:false,focusWhy:false,createProject:false,remindersOpen:false,notificationsOpen:false};
+const p=()=>[...projects,...personalProjects].find(x=>x.id===state.projectId);const isPersonalProject=id=>personalProjects.some(x=>x.id===id);const esc=s=>String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]));
+function nav(id,icon,label){return `<button class="navBtn ${state.nav===id?'active':''}" title="${label}" data-a="nav" data-id="${id}"><span class="ico">${icon}</span>${label}</button>`}
+function projectNavRow(x){
+ return `<div>
+   <div class="projectRow">
+     <button class="project ${state.projectId===x.id&&!contextViewActive()?'active':''}" data-a="project" data-id="${x.id}">
+       <span class="ico">${I.file}</span>
+       <span class="meta"><b>${x.name}</b><small>${x.meta}</small></span>
+     </button>
+     <div class="projectActions">
+       <button class="projectMiniAction" title="新建项目对话" data-a="newProjectThread" data-id="${x.id}">＋</button>
+       <button class="projectMiniAction projectExpand" title="${state.expanded[x.id]?'收起':'展开'}项目对话" data-a="toggleProject" data-id="${x.id}">${state.expanded[x.id]?'⌄':'›'}</button>
+     </div>
+   </div>
+   ${state.expanded[x.id]?`<div class="threads">${x.threads.map(t=>`<button class="thread ${state.projectId===x.id&&state.projectThread===t?'active':''}" data-a="thread" data-id="${x.id}" data-title="${t}">${t}</button>`).join('')}</div>`:''}
+ </div>`
+}
+function sidebar(){return `<aside class="sidebar">
+<div class="brand"><div class="brandMark">EB</div><div><b>Enterprise Brain</b><small>Employee Workspace</small></div></div>
+<div class="mode"><button data-a="mode" data-mode="chat" class="${state.mode==='chat'?'active':''}">聊天</button><button data-a="mode" data-mode="work" class="${state.mode==='work'?'active':''}">工作</button></div>
+<div class="scroll">
+  <div>${nav('new',I.chat,'新对话')}${nav('plugins',I.plug,'插件')}${nav('auto',I.auto,'自动化')}${nav('library',I.book,'资料库')}${nav('assistants',I.spark,'助理')}${nav('swarms',I.swarm,'蜂群')}</div>
+  <div class="section"><span>当前项目</span><span>企业安排</span></div>
+  ${projects.map(projectNavRow).join('')}
+  <div class="section personalHeader"><span>个人项目</span><button class="personalSectionAction" title="创建个人项目" data-a="createPersonalProject">＋</button></div>
+  ${personalProjects.length?personalProjects.map(projectNavRow).join(''):`<div class="emptyPersonal">还没有个人项目</div>`}
+  <div class="section"><span>历史对话</span><span>⌄</span></div>
+  ${['产品需求梳理','今日任务复盘','华磁客户会议总结'].map(t=>`<button class="thread" data-a="history">${t}</button>`).join('')}
+</div>
+<div class="bottom"><button class="user" data-a="profile"><span class="avatar">LC</span><b>林川</b></button><button class="iconBtn" title="通知" data-a="notice">${I.bell}<i class="dot"></i></button><button class="iconBtn" title="设置" data-a="settings">${I.gear}</button><button class="iconBtn ${state.mode==='work'&&state.view==='daily'&&state.dash?'active':''}" title="每日工作看板" data-a="dash">${I.play}</button></div>
+</aside>`}
+
+function contextViewActive(){return state.mode==='work'&&!!(state.projectThread||state.taskContext)}
+function projectById(id){return [...projects,...personalProjects].find(x=>x.id===id)}
+function workConversationPage(){
+  const pr=p();
+  if(!pr)return `<div class="content"></div>`;
+  const isTask=!!state.taskContext;
+  const name=isTask?state.taskContext.title:state.projectThread;
+  const badge=isTask?'Task Context Connected':'Project Context Connected';
+  const meta=isTask
+    ? `<div class="contextMeta"><span>${state.taskContext.id}</span><span>${state.taskContext.status}</span><span>${state.taskContext.priority}</span><span>${state.taskContext.deadline}</span></div>
+       <div class="contextDetails">
+         <div><b>任务目标</b>${state.taskContext.goal}</div>
+         <div><b>当前依赖</b>${state.taskContext.dependency}</div>
+       </div>`
+    : `<div class="contextMeta"><span>项目目标</span><span>项目资料</span><span>任务</span><span>资产</span><span>项目 Agent</span><span>授权知识</span></div>`;
+  const desc=isTask
+    ? `这是「${pr.name}」中的具体任务工作上下文。AI 与 Agent 会自动理解当前 Project + Task，无需重复说明背景。`
+    : `这是「${pr.name}」中的项目 AI 对话。Conversation 已自动携带当前项目上下文，无需重复说明项目背景。`;
+  const messages=isTask?[
+    ['AI总管','根据当前任务状态，你现在最重要的是把项目内“查看”与“实际执行”衔接起来。'],
+    ['我','那我们先把项目内的工作入口和上下文对话统一。'],
+    ['Product Agent','可以。建议保持 Project Workspace 不变，把具体 Task 作为独立工作上下文打开。'],
+    ['我','Task 里面也要能直接 @Agent、用文件和右侧工具。'],
+    ['Prototype Agent','已理解。我会沿用当前项目上下文、Composer 和右侧工具区，不新造一套操作逻辑。'],
+    ['我','先给我一个最小可用版本。'],
+    ['Prototype Agent','已生成一个任务工作流草案。',{artifact:true,title:'Task Work Context · Draft',type:'Artifact · Prototype'}],
+    ['AI总管','下一步建议确认：完成工作后，哪些 Artifact 应该被员工设为正式 Result。'],
+    ['我','这个后面再接 Result，先把工作入口做顺。']
+  ]:[
+    ['Product Agent','我已经读取当前项目目标、已有资料、任务与项目 Agent。'],
+    ['我','我们继续讨论项目内的功能分区。'],
+    ['Product Agent','目前结构已经比较清晰：动态负责协作事实，任务负责正式工作对象，资产负责上下文沉淀。'],
+    ['我','那项目里如果我要单独和 AI 讨论一个方案呢？'],
+    ['Product Agent','可以直接保留为项目 Conversation，不必进入全局聊天模式。'],
+    ['我','而且这个对话要一直带着项目上下文。'],
+    ['Product Agent','对。当前 Conversation 会持续绑定「'+pr.name+'」，但不会默认公开给项目其他成员。'],
+    ['Prototype Agent','我还可以基于当前项目文件继续生成或修改原型。',{artifact:true,title:'项目功能分区方案 V2',type:'Artifact · Document'}],
+    ['我','继续把 Task 工作入口也加进去。'],
+    ['Product Agent','可以从项目 Task 列表直接进入 Task Context Conversation，两者使用同一套工作对话容器。']
+  ];
+  return `<div class="content"><section class="contextConversation">
+    <div class="contextBreadcrumb">
+      <button data-a="backProject" data-id="${pr.id}">${pr.name}</button><span>/</span>
+      ${isTask?`<button data-a="backTaskList" data-id="${pr.id}">任务</button><span>/</span>`:''}
+      <span>${name}</span>
+    </div>
+    <div class="contextBadge">✦ ${badge}</div>
+    <article class="contextIntro">
+      <h1>${name}</h1>
+      <p>${desc}</p>
+      ${meta}
+    </article>
+    <div class="workThread">
+      ${messages.map((m,i)=>`<div class="workMsg ${m[0]==='我'?'me':''}">
+        <div class="workAvatar">${m[0]==='我'?'我':m[0].slice(0,2)}</div>
+        <div class="workBubble">
+          <div class="workWho">${m[0]}</div>
+          <div class="workText">${m[1]}</div>
+          ${m[2]?.artifact?`<div class="artifactCard"><b>${m[2].title}</b><small>${m[2].type}</small><div class="artifactActions"><button>预览</button><button>打开</button><button>继续修改</button></div></div>`:''}
+        </div>
+      </div>`).join('')}
+    </div>
+  </section></div>`;
+}
+function title(){let t='Enterprise Brain',s=state.mode==='chat'?'普通 AI 对话模式':'工作模式 · 企业任务与项目';if(contextViewActive()&&p()){t=p().name;s=state.taskContext?`任务工作上下文 · ${state.taskContext.id}`:`项目对话 · ${state.projectThread}`}if(state.view==='daily'){t='今日工作';s='每日工作看板 · 2026年8月18日'}if(state.view==='project'&&p()&&!contextViewActive()){t=p().name;s=state.mode==='work'?'项目工作区':'项目对话上下文'}if(state.view==='swarm'){t=state.swarmId==='product'?'产品创新蜂群':'蜂群';s='长期部门蜂群 · 动态 / 计划 / 任务 / 资产 / 配置'}const map={plugins:'插件',auto:'自动化',library:'资料库',assistants:'助理',swarms:'蜂群',profile:'林川',settings:'设置'};if(state.nav&&map[state.nav]){t=map[state.nav];s='Enterprise Brain 全局能力'}return `<header class="topbar">
+  <div class="topTitle"><b>${t}</b><small>${s}</small></div>
+  <div class="topActions">
+    <button class="reminderBtn ${reminders.some(r=>r.urgent)?'urgent':''}" data-a="reminderToggle" title="提醒">
+      <span>⏰</span><span>提醒</span><span class="count">${reminders.length}</span>
+    </button>
+  </div>
+  ${reminderPopover()}
+</header>`}
+function reminderPopover(){
+  if(!state.remindersOpen)return '';
+  const currentScope=state.projectId;
+  const scoped=reminders.filter(r=>!currentScope||r.scope===currentScope||r.scope==='global');
+  const other=reminders.filter(r=>currentScope&&r.scope!==currentScope&&r.scope!=='global');
+  const item=r=>`<div class="reminderItem ${r.urgent?'urgent':''}">
+    <div class="reminderTopline"><span class="reminderTime">${r.time}</span><span class="reminderDue">${r.due}</span></div>
+    <div class="reminderTitle">${r.title}</div>
+    <div class="reminderMeta">${r.meta}</div>
+    <div class="reminderActions">
+      ${r.type==='task'
+        ? `<button class="primaryMini" data-a="reminderTask">继续工作</button>`
+        : `<button class="primaryMini" data-a="reminderView" data-rid="${r.id}">查看</button>`}
+      <button data-a="snoozeReminder" data-rid="${r.id}">10分钟后提醒</button>
+    </div>
+  </div>`;
+  return `<div class="reminderPopover" data-reminder-popover>
+    <div class="reminderHead"><div><b>提醒</b><small>${currentScope&&p()?`优先显示「${p().name}」相关事项`:'接下来需要关注的时间事项'}</small></div><button class="linkBtn" data-a="reminderAll">查看全部</button></div>
+    ${scoped.length?`<div class="reminderGroupTitle">即将到来</div>${scoped.map(item).join('')}`:`<div class="reminderEmpty">当前没有提醒</div>`}
+    ${other.length?`<div class="reminderGroupTitle">其他提醒 · ${other.length}</div>`:''}
+  </div>`;
+}
+function notificationDrawer(){
+  if(!state.notificationsOpen)return '';
+  return `<div class="noticeDrawer">
+    <div class="noticeDrawerHead"><b>通知中心</b><small>${notifications.filter(n=>n.unread).length} 未读</small></div>
+    ${notifications.map(n=>`<div class="noticeListItem ${n.unread?'unread':''}"><b>${n.title}</b><p>${n.meta}</p></div>`).join('')}
+  </div>`;
+}
+function tabs(){if(!(state.mode==='work'&&((state.view==='project'&&p())||state.view==='swarm')))return '';return `<nav class="tabs">${[['activity','动态'],['plan','计划'],['tasks','任务'],['assets','资产'],['config','配置']].map(x=>`<button data-a="tab" data-tab="${x[0]}" class="${state.tab===x[0]?'active':''}">${x[1]}</button>`).join('')}</nav>`}
+function row(color,title,sub,tag=''){return `<div class="row"><i class="status ${color}"></i><div><b>${title}</b><small>${sub}</small></div>${tag?`<span class="tag ${color}">${tag}</span>`:''}</div>`}
+function dashboard(){
+if(!state.dash)return `<div class="content"><div class="hero"><div><h1>每日工作看板已关闭</h1><p>你仍处于工作模式。可以直接在下方询问今天的工作，或点击左下角 ▶ 再次打开。</p><button class="light" data-a="dash">重新打开看板</button></div></div></div>`;
+return `<div class="content"><section class="page">
+<div class="dashTop"><div><h2>下午好，林川</h2><p>这是今天最需要关注的工作。底部 AI 可以直接理解当前看板内容。</p></div><button class="close" title="关闭每日工作看板" data-a="closeDash">${I.x}</button></div>
+<div class="grid">
+<article class="card wide"><h3>今日重点 <span>AI总管建议</span></h3>
+  <div class="item"><b>现在做 · 完成员工端 MVP 初版</b><small>P0 · 今天18:00 · 张明正在等待结构确认</small></div>
+  <div class="focusActions"><button class="primary" data-a="resumeFocus">继续工作</button><button class="light" data-a="viewFocusTask">查看任务</button></div>
+</article>
+<article class="card"><h3>待我处理 <span>2</span></h3>
+  ${row('r','Review · 员工端原型','15:30 前确认','处理')}
+  ${row('a','Meeting · 设计评审','15:30','确认')}
+</article>
+<article class="card"><h3>我的任务 <span>今日</span></h3>
+  ${row('b','员工端 MVP 原型','进行中','Working')}
+  ${row('','UAT 清单','待开始','Todo')}
+</article>
+<article class="card"><h3>今日日程 <span>2</span></h3>
+  ${row('b','15:30 · 员工端设计评审','6人')}
+  ${row('','17:40 · 日报确认','自动化生成')}
+</article>
+</div></section></div>`}
+
+function scopeName(){return state.view==='swarm'?'产品创新蜂群':(p()?.name||'当前项目')}
+function activeMemberList(){return state.view==='swarm'?deptMembers:members}
+function memberDirectoryHtml(list){
+  const humans=list.filter(m=>!m[0].includes('Agent'));
+  const agents=list.filter(m=>m[0].includes('Agent'));
+  const card=m=>{
+    const unread=m[0]==='陈曦'?2:0;
+    return `<article class="memberMini" data-a="openDM" data-name="${m[0]}">
+      ${unread?`<span class="unreadBubble">${unread}</span>`:''}
+      <div class="avatarLg">${m[0].slice(0,2)}</div>
+      <b>${m[0]}</b>
+      <small>${m[1]}</small>
+      <small>当前：${m[2]}</small>
+      <button class="light memberChatBtn" data-a="openDM" data-name="${m[0]}">发起对话</button>
+    </article>`;
+  };
+  return `<div class="memberDirectory">
+    <section class="memberSection"><h3>人类成员</h3><div class="memberCards">${humans.map(card).join('')}</div></section>
+    <section class="memberSection"><h3>Agent 成员</h3><div class="memberCards">${agents.map(card).join('')}</div></section>
+  </div>`;
+}
+function memberDMPage(){
+  const name=state.memberDM;
+  const list=activeMemberList();
+  const m=list.find(x=>x[0]===name)||[name,'成员','',''];
+  const history=dmHistories[name]||[[name,'你好，需要我协作什么？','刚刚']];
+  return `<div class="content"><section class="page">
+    <div class="breadcrumb">
+      <button class="breadcrumbBack" data-a="backMembers" title="返回全部成员" aria-label="返回全部成员">◀︎</button>
+      <button data-a="backScope">${scopeName()}</button><span>/</span>
+      <button data-a="backMembers">全部成员</button><span>/</span>
+      <span>${name} 对话</span>
+    </div>
+    <div class="dmPanel">
+      <div class="dmHead">
+        <div class="avatarLg">${name.slice(0,2)}</div>
+        <div><b>${name}</b><small>${m[1]} · ${scopeName()}</small></div>
+      </div>
+      <div class="dmMessages">
+        ${history.map(x=>`<div class="dmLine ${x[0]==='林川'?'me':''}"><div class="dmBubble">${x[1]}</div></div>`).join('')}
+      </div>
+    </div>
+  </section></div>`;
+}
+function filters(){return `<div class="filters"><button data-a="filter" data-filter="mine" class="${state.filter==='mine'?'active':''}">与我相关</button><button data-a="filter" data-filter="all" class="${state.filter==='all'?'active':''}">成员动态</button><button data-a="filter" data-filter="members" class="${state.filter==='members'?'active':''}">全部成员</button></div>`}
+function activity(){
+if(state.memberDM)return memberDMPage();
+if(state.filter==='members')return `<div class="content"><section class="page">
+  <div class="activityHead"><h2>${p().name} · 全部成员</h2>${filters()}</div>
+  ${memberDirectoryHtml(members)}
+</section></div>`;
+let list=state.filter==='mine'?activities.filter(x=>x[4]==='mine'):activities;
+return `<div class="content"><section class="page">
+  <div class="activityHead"><h2>${p().name} · 动态</h2>${filters()}</div>
+  <div class="activityList">${list.map(a=>`<div class="activity"><div class="activityIcon">${a[1]}</div><div><b>${a[0]}</b><p>${a[2]}</p></div><time>${a[3]}</time></div>`).join('')}</div>
+</section></div>`}
+function projectPage(){if(state.tab==='activity')return activity();if(state.tab==='plan')return `<div class="content"><section class="page"><div class="two"><article class="card"><h3>项目目标</h3><p class="muted">完成 Enterprise Brain 新版员工端功能分区、可交互原型和研发可用规格。</p></article><article class="card"><h3>当前风险</h3>${row('a','每日工作看板待评审','15:30')}${row('','配置权限规则','后续定义')}</article><article class="card"><h3>阶段与里程碑</h3>${row('g','功能分区确认','已完成')}${row('b','V0.1 可交互原型','进行中')}${row('','产品评审','15:30')}${row('','前端实现','评审后')}</article><article class="card"><h3>关键依赖</h3>${row('g','产品结构','已确认')}${row('a','领导评审','等待')}</article></div></section></div>`;if(state.tab==='tasks')return `<div class="content"><section class="page"><article class="card">
+<div class="row taskRowAction" data-a="openTaskContext" data-id="EMP-UI-01" data-title="新版员工端原型" data-status="Working" data-priority="P0" data-deadline="今天18:00"><i class="status b"></i><div><b>EMP-UI-01 · 新版员工端原型</b><small>DRI 林川 · P0 · 今天18:00</small></div><button class="taskOpenBtn">继续工作</button></div>
+<div class="row"><i class="status g"></i><div><b>EMP-UI-00 · 五区架构复盘</b><small>Result 已验收</small></div><span class="tag g">Done</span></div>
+<div class="row taskRowAction" data-a="openTaskContext" data-id="FE-12" data-title="前端状态模型" data-status="Waiting" data-priority="P1" data-deadline="待上游 Result"><i class="status r"></i><div><b>FE-12 · 前端状态模型</b><small>DRI 张明 · 等待 EMP-UI-01 Result</small></div><button class="taskOpenBtn">查看上下文</button></div>
+</article></section></div>`;if(state.tab==='assets')return `<div class="content"><section class="page"><h2 style="font-size:18px">项目资产</h2><p class="muted">全局资料库的当前项目上下文视图</p><article class="card">${['员工端功能分区草图.png','Enterprise_Brain_Employee_MVP_V0_6.html','产品设计与开发规格说明书.pdf','核心对象与状态机说明.pdf','Decision · 聊天/工作双模式'].map(x=>`<div class="listRow"><span>${I.file}</span><div><b>${x}</b><small>项目资产 / 企业资料库已关联</small></div></div>`).join('')}</article></section></div>`;return `<div class="content"><section class="page"><h2 style="font-size:18px">项目配置</h2><p class="muted">当前只定义入口，具体权限后续冻结。</p><div class="two">${[['成员','项目成员、Role 与协作关系'],['Agent','项目配置 Agent 与专业 Agent'],['权限','项目数据、文件、Agent 与工具权限'],['项目设置','名称、目标、优先级和时间']].map(x=>`<article class="card"><h3>${x[0]}</h3><p class="muted">${x[1]}</p><button class="light" style="margin-top:8px">查看</button></article>`).join('')}</div></section></div>`}
+
+function swarmPage(){
+if(state.tab==='activity'){
+  if(state.memberDM)return memberDMPage();
+  if(state.filter==='members')return `<div class="content"><section class="page">
+    <div class="activityHead"><h2>产品创新蜂群 · 全部成员</h2>${filters()}</div>
+    ${memberDirectoryHtml(deptMembers)}
+  </section></div>`;
+  let list=state.filter==='mine'?deptActivities.filter(x=>x[4]==='mine'):deptActivities;
+  return `<div class="content"><section class="page">
+    <div class="activityHead"><h2>产品创新蜂群 · 动态</h2>${filters()}</div>
+    <div class="activityList">${list.map(a=>`<div class="activity"><div class="activityIcon">${a[1]}</div><div><b>${a[0]}</b><p>${a[2]}</p></div><time>${a[3]}</time></div>`).join('')}</div>
+  </section></div>`;
+}
+if(state.tab==='plan')return `<div class="content"><section class="page"><div class="two">
+  <article class="card"><h3>部门重点</h3><p class="muted">员工端 MVP、华磁 OS 交付、企业 AI 产品规范。</p></article>
+  <article class="card"><h3>本周计划</h3>${row('b','员工端 MVP 初版','本周')}${row('a','华磁 OS 方案评审','周四')}${row('','部门周报','周五')}</article>
+</div></section></div>`;
+if(state.tab==='tasks')return `<div class="content"><section class="page"><article class="card">
+  ${row('b','员工端 MVP 原型','林川 · Working','P0')}
+  ${row('a','交互规范整理','陈曦 · Working','P1')}
+  ${row('','前端状态模型','张明 · Waiting','P1')}
+</article></section></div>`;
+if(state.tab==='assets')return `<div class="content"><section class="page"><h2 style="font-size:18px">蜂群资产</h2><p class="muted">产品创新蜂群共享资料、Result 与知识。</p><article class="card">
+  ${['员工端产品规范','交互规范库','部门周报','Product Agent 输出','用户研究资料'].map(x=>`<div class="listRow"><span>${I.file}</span><div><b>${x}</b><small>产品创新蜂群共享</small></div></div>`).join('')}
+</article></section></div>`;
+return `<div class="content"><section class="page"><h2 style="font-size:18px">蜂群配置</h2><p class="muted">MVP 只保留入口，权限后续定义。</p><div class="two">
+  <article class="card"><h3>成员</h3><p class="muted">部门成员与角色</p></article>
+  <article class="card"><h3>Agent</h3><p class="muted">部门配置 Agent</p></article>
+  <article class="card"><h3>权限</h3><p class="muted">资料、Agent 与工具权限</p></article>
+  <article class="card"><h3>蜂群设置</h3><p class="muted">名称、说明与基础配置</p></article>
+</div></section></div>`}
+function globalPage(id){
+if(id==='plugins')return `<div class="content"><section class="page"><h2 style="font-size:18px">插件</h2><p class="muted">企业 / 个人可用工具扩展。</p><article class="card">
+${row('g','网页研究','企业插件','已启用')}
+${row('g','代码仓库','企业插件','已启用')}
+${row('b','Figma','个人插件','已连接')}
+</article></section></div>`;
+if(id==='auto')return `<div class="content"><section class="page"><h2 style="font-size:18px">自动化</h2><p class="muted">创建、查看个人和企业自动运行 Workflow。</p><div class="two">
+<article class="card"><h3>我的自动化</h3>${row('g','每日18:00生成日报','今天18:00','运行中')}${row('g','每周五生成周报','周五17:30','运行中')}</article>
+<article class="card"><h3>企业基础工作流</h3>${row('','会议纪要自动归档','事件触发')}${row('','Task到期提醒','事件触发')}</article>
+</div></section></div>`;
+if(id==='library')return `<div class="content"><section class="page"><h2 style="font-size:18px">资料库</h2><p class="muted">企业全局资料、项目资产与个人资料的统一入口。</p><article class="card">
+${['企业AI OS产品规范','员工端项目资料','华磁 OS 项目资料','个人研究资料'].map(x=>`<div class="listRow"><span>${I.file}</span><div><b>${x}</b><small>有权限访问</small></div><button class="light" data-a="quickAction">打开</button></div>`).join('')}
+</article></section></div>`;
+if(id==='assistants')return `<div class="content"><section class="page"><h2 style="font-size:18px">助理</h2><p class="muted">我的 AI Agent / AI助手。</p><div class="two">
+${[['AI总管','基础配置 Agent'],['Product Agent','部门配置 Agent'],['Prototype Agent','项目配置 Agent'],['Research Agent','个人 Agent']].map(a=>`<article class="card"><h3>${a[0]}</h3><span class="tag b">${a[1]}</span><p class="muted">在线 · 可直接发起对话</p><button class="light" data-a="agentChat" data-agent="${a[0]}">发起对话</button></article>`).join('')}
+</div></section></div>`;
+if(id==='swarms')return `<div class="content"><section class="page"><h2 style="font-size:18px">蜂群</h2><p class="muted">长期部门蜂群 + 动态项目蜂群，都可以查看成员并直接发起群聊。</p><div class="two">
+<article class="card"><h3>产品创新蜂群</h3><p class="muted">长期归属 · 12人 + Agent</p><button class="light" data-a="swarmChat" data-id="product">进入蜂群</button></article>
+<article class="card"><h3>员工端原型 · 动态蜂群</h3><p class="muted">当前项目小组 · 6成员</p><button class="light" data-a="project" data-id="employee">进入蜂群</button></article>
+</div></section></div>`;
+let map={profile:['林川','个人信息'],settings:['设置','Enterprise Brain 个人设置']};
+let m=map[id]||['页面',''];
+return `<div class="content"><section class="page"><h2 style="font-size:18px">${m[0]}</h2><p class="muted">${m[1]}</p><article class="card"><p class="muted">MVP 仅保留必要设置入口。</p></article></section></div>`}
+function chat(){return `<div class="content"><section class="page"><div class="hero"><div><h1>今天想做什么？</h1><p>普通 AI 对话。Enterprise Brain 默认自动路由 AI总管或专业 Agent，也可以通过 @ 明确指定。</p><div class="suggestions"><button class="suggestion" data-a="suggest">帮我总结今天最重要的工作</button><button class="suggestion" data-a="suggest">@Product Agent 分析当前员工端原型</button><button class="suggestion" data-a="suggest">查找当前项目相关资料</button><button class="suggestion" data-a="suggest">@AI总管 查看待确认事项</button></div></div></div></section></div>`}
+function body(){if(state.nav&&state.nav!=='new')return globalPage(state.nav);if(contextViewActive())return workConversationPage();if(state.mode==='chat')return chat();if(state.view==='daily')return dashboard();if(state.view==='swarm')return swarmPage();if(state.view==='project')return projectPage();return dashboard()}
+function composer(){
+let human=state.mode==='work'&&!contextViewActive()&&((state.view==='project'&&state.tab==='activity')||(state.view==='swarm'&&state.tab==='activity'));
+let dm=!!state.memberDM;
+let projectChat=contextViewActive()&&p();let label=dm?`与 ${state.memberDM} 的私聊`:human?(state.view==='swarm'?'与蜂群成员的对话':`与项目成员的对话 · ${p()?.name||''}`):projectChat?(state.taskContext?`任务工作上下文 · ${state.taskContext.id} · ${p().name}`:`项目 AI 对话 · ${p().name} · 自动携带项目上下文`):state.mode==='chat'?'AI 对话 · 自动路由 / @指定 Agent':`上下文 AI · 可询问当前${state.view==='daily'?'工作看板':state.tab}`;
+return `<div class="composerWrap"><div class="composer">
+  <div class="composerLabel"><b>${human?'Human Collaboration':'Enterprise Brain AI'}</b> · ${label}</div>
+  <textarea id="input" placeholder="${dm?`给 ${state.memberDM} 发消息…`:human?(state.view==='swarm'?'向蜂群成员发送消息…':'向项目成员发送消息…'):projectChat?(state.taskContext?`围绕 ${state.taskContext.id} 开始工作…`:`在「${p().name}」项目上下文中开始对话…`):'询问当前内容，或 @AI总管 / @专业Agent…'}"></textarea>
+  <div class="bar"><div class="left"><div class="relative">
+    <button class="toolBtn" title="添加文件 / 工具 / 上下文" data-a="plus">${I.plus}</button>
+    ${state.plus?`<div class="plusMenu"><button data-a="insert" data-t="[上传文件] ">上传文件</button><button data-a="insert" data-t="[蜂群/项目文件] ">选择文件</button><button data-a="insert" data-t="[网页] ">添加网页</button><button data-a="insert" data-t="[知识] ">添加知识</button><button data-a="insert" data-t="[Task/Result] ">添加 Task / Result</button></div>`:''}
+  </div><button class="toolBtn" title="指定成员 / Agent" data-a="at">@</button></div>
+  <div class="right"><button class="toolBtn" title="语音转文字" data-a="speech">${I.mic}</button><button class="send" title="发送" data-a="send">${I.send}</button></div></div>
+</div></div>`}
+function tools(){let title={files:'文件',browser:'浏览器',term:'终端',side:'侧边对话'}[state.tool];let body=state.tool==='files'?['Enterprise_Brain_Employee_MVP_V0_6.html','功能分区草图.png','产品规格说明书.pdf'].map(x=>`<div class="file"><span>${I.file}</span><div><b>${x}</b><small>当前上下文</small></div></div>`).join(''):state.tool==='browser'?'<div class="browser">Browser / Search / Web Preview</div>':state.tool==='term'?'<div class="terminal">$ enterprise-brain dev\n✓ workspace loaded\n✓ project context available\n\n$ _</div>':'<div class="sideBubble">仅针对当前文件 / 网页 / Terminal 的临时上下文问答，不创建正式 Conversation。</div><div class="sideBubble">当前页面采用稳定左导航 + 中央工作区 + 按需展开工具栏。</div>';return `<aside class="tools"><div class="rail">${[['files',I.file],['browser',I.browser],['term',I.term],['side',I.chat]].map(x=>`<button class="iconBtn ${state.drawer&&state.tool===x[0]?'active':''}" title="${{files:'文件',browser:'浏览器',term:'终端',side:'侧边对话'}[x[0]]}" data-a="tool" data-tool="${x[0]}">${x[1]}</button>`).join('')}</div><div class="drawer"><div class="drawerHead"><b>${title}</b><button class="iconBtn" data-a="drawerClose">${I.x}</button></div><div class="drawerBody">${body}</div></div></aside>`}
+function createProjectModal(){if(!state.createProject)return '';return `<div class="modalMask" data-a="modalMask">
+  <div class="projectModal" onclick="event.stopPropagation()">
+    <div class="projectModalHead"><div><h3>创建个人项目</h3><p>创建后使用与企业项目一致的 Workspace，并默认仅自己可见。</p></div><button class="iconBtn" data-a="cancelCreateProject">${I.x}</button></div>
+    <div class="formField"><label>项目名称 *</label><input id="newProjectName" placeholder="例如：新产品研究"></div>
+    <div class="formField"><label>项目说明 / 目标</label><textarea id="newProjectDesc" placeholder="简单说明这个项目准备做什么…"></textarea></div>
+    <div class="modalActions"><button class="light" data-a="cancelCreateProject">取消</button><button class="primary" data-a="confirmCreateProject">创建项目</button></div>
+  </div>
+</div>`}
+function render(){document.getElementById('app').innerHTML=`<div class="app ${state.drawer?'drawerOpen':''}">${sidebar()}<main class="main">${title()}<section class="workspace ${contextViewActive()?'contextView':''}">${tabs()}${body()}${composer()}</section></main>${tools()}</div>${createProjectModal()}${notificationDrawer()}`}
+function toast(t='已完成',p='当前操作已执行。'){let o=document.querySelector('.notice');if(o)o.remove();let n=document.createElement('div');n.className='notice';n.innerHTML=`<b>${t}</b><p>${p}</p>`;document.body.appendChild(n);setTimeout(()=>n.remove(),2200)}
+document.addEventListener('click',e=>{let x=e.target.closest('[data-a]');if(!x)return;let a=x.dataset.a;if(a==='mode'){state.remindersOpen=false;state.notificationsOpen=false;state.memberDM=null;state.projectThread=null;state.taskContext=null;state.mode=x.dataset.mode;state.nav=null;state.projectId=null;state.swarmId=null;if(state.mode==='work'){state.view='daily';state.dash=true}else state.view='chat'}else if(a==='nav'){state.remindersOpen=false;state.notificationsOpen=false;state.memberDM=null;state.projectThread=null;state.taskContext=null;state.swarmId=null;state.nav=x.dataset.id;if(state.nav==='new'){state.nav=null;state.mode='chat';state.view='chat';state.projectId=null}}else if(a==='swarmChat'){state.memberDM=null;state.projectThread=null;state.taskContext=null;state.mode='work';state.view='swarm';state.swarmId=x.dataset.id;state.projectId=null;state.nav=null;state.tab='activity';state.filter='mine'}else if(a==='project'){state.remindersOpen=false;state.notificationsOpen=false;state.memberDM=null;state.projectThread=null;state.taskContext=null;state.swarmId=null;state.projectId=x.dataset.id;state.nav=null;state.mode='work';state.view='project';if(!state.tab)state.tab='activity'}else if(a==='thread'){state.remindersOpen=false;state.notificationsOpen=false;state.memberDM=null;state.taskContext=null;state.projectId=x.dataset.id;state.projectThread=x.dataset.title;state.nav=null;state.mode='work';state.view='project';toast('已打开项目对话',`${x.dataset.title} · 已连接 ${p()?.name||'项目'} 上下文`)}else if(a==='history'){state.projectThread=null;state.taskContext=null;state.projectId=null;state.mode='chat';state.view='chat';state.nav=null}else if(a==='toggleProject'){state.expanded[x.dataset.id]=!state.expanded[x.dataset.id]}else if(a==='newProjectThread'){let pr=[...projects,...personalProjects].find(v=>v.id===x.dataset.id);if(pr){let base='新项目对话',i=1,title=base;while(pr.threads.includes(title))title=`${base} ${++i}`;pr.threads.unshift(title);state.expanded[pr.id]=true;state.memberDM=null;state.projectId=pr.id;state.projectThread=title;state.taskContext=null;state.nav=null;state.mode='work';state.view='project';toast('已创建项目对话',`已自动携带「${pr.name}」项目上下文`)}}else if(a==='openTaskContext'){state.remindersOpen=false;state.notificationsOpen=false;state.memberDM=null;state.projectThread=null;state.taskContext=null;state.mode='work';state.view='project';state.nav=null;state.taskContext={id:x.dataset.id,title:x.dataset.title,status:x.dataset.status,priority:x.dataset.priority,deadline:x.dataset.deadline,goal:x.dataset.id==='EMP-UI-01'?'完成新版员工端原型并形成可评审 Result。':'完成当前任务要求。',dependency:x.dataset.id==='FE-12'?'等待 EMP-UI-01 Result':'当前无阻塞依赖'};toast('已进入任务工作上下文',`${x.dataset.id} · ${x.dataset.title}`)}else if(a==='backProject'){state.projectThread=null;state.taskContext=null;state.mode='work';state.view='project';state.projectId=x.dataset.id;state.nav=null}else if(a==='backTaskList'){state.projectThread=null;state.taskContext=null;state.mode='work';state.view='project';state.projectId=x.dataset.id;state.tab='tasks';state.nav=null}else if(a==='projectMore'){let pr=[...projects,...personalProjects].find(v=>v.id===x.dataset.id);toast(pr?.name||'项目','更多项目操作将在后续版本补充')}else if(a==='createPersonalProject'){state.createProject=true}else if(a==='cancelCreateProject'||a==='modalMask'){state.createProject=false}else if(a==='confirmCreateProject'){let name=(document.getElementById('newProjectName')?.value||'').trim();let desc=(document.getElementById('newProjectDesc')?.value||'').trim();if(!name){toast('请输入项目名称','项目名称为必填项');return}let id='personal_'+Date.now();personalProjects.unshift({id,name,meta:'个人项目',description:desc||'个人项目',threads:[]});state.expanded[id]=true;state.createProject=false;state.memberDM=null;state.projectThread=null;state.taskContext=null;state.mode='work';state.view='project';state.projectId=id;state.nav=null;state.tab='activity';state.filter='mine';toast('个人项目已创建',`已进入「${name}」项目工作区`)}else if(a==='dash'){state.memberDM=null;state.projectThread=null;state.taskContext=null;state.mode='work';state.nav=null;state.view='daily';state.projectId=null;state.swarmId=null;state.dash=!state.dash}else if(a==='closeDash')state.dash=false;else if(a==='tab'){state.memberDM=null;state.tab=x.dataset.tab}else if(a==='filter'){state.memberDM=null;state.filter=x.dataset.filter}else if(a==='tool'){state.tool=x.dataset.tool;state.drawer=true}else if(a==='drawerClose')state.drawer=false;else if(a==='plus')state.plus=!state.plus;else if(a==='insert'){let i=document.getElementById('input');if(i)i.value+=x.dataset.t;state.plus=false}else if(a==='at'){let i=document.getElementById('input');if(i){i.value+=state.memberDM?`@${state.memberDM} `:(state.mode==='work'&&((state.view==='project'&&state.tab==='activity')||(state.view==='swarm'&&state.tab==='activity')))?'@张明 ':'@AI总管 ';i.focus()}}else if(a==='speech'){let i=document.getElementById('input');if(i)i.value+='[语音转文字] 今天我最重要的任务是什么？';toast('语音转文字','V0.1 以文本模拟识别结果')}else if(a==='send'){let i=document.getElementById('input');if(!i||!i.value.trim())return;let human=state.mode==='work'&&!contextViewActive()&&((state.view==='project'&&state.tab==='activity')||(state.view==='swarm'&&state.tab==='activity'));toast(state.memberDM?`已发送给 ${state.memberDM}`:human?(state.view==='swarm'?'已发送到产品创新蜂群':'已发送给项目成员'):'已路由 AI','当前上下文已保留')}else if(a==='whyFocus'){state.focusWhy=!state.focusWhy}else if(a==='resumeFocus'){state.projectId='employee';state.view='project';state.tab='tasks';state.nav=null;toast('继续工作','已恢复员工端原型的当前任务上下文')}else if(a==='viewFocusTask'){state.projectId='employee';state.view='project';state.tab='tasks';state.nav=null}else if(a==='handleReview'){toast('打开 Review','进入 Prototype V5 的评审上下文')}else if(a==='quickAction'){toast('已处理','原型中模拟完成当前快捷动作')}else if(a==='openDM'){state.memberDM=x.dataset.name;state.filter='members'}else if(a==='backMembers'){state.memberDM=null;state.filter='members'}else if(a==='backScope'){state.memberDM=null;state.filter='all'}else if(a==='agentChat'){state.mode='chat';state.view='chat';state.nav=null;toast('已打开 Agent 对话',x.dataset.agent)}else if(a==='reminderToggle'){state.remindersOpen=!state.remindersOpen;state.notificationsOpen=false}
+else if(a==='snoozeReminder'){let r=reminders.find(v=>v.id===x.dataset.rid);if(r){r.due='已稍后提醒 · 10分钟后';toast('已稍后提醒',`${r.title} · 10分钟后再次提醒`)}state.remindersOpen=false}
+else if(a==='reminderTask'){state.remindersOpen=false;state.memberDM=null;state.projectThread=null;state.taskContext={id:'EMP-UI-01',title:'新版员工端原型',status:'Working',priority:'P0',deadline:'今天18:00',goal:'完成新版员工端原型并形成可评审 Result。',dependency:'当前无阻塞依赖'};state.mode='work';state.view='project';state.projectId='employee';state.nav=null}
+else if(a==='reminderView'){let r=reminders.find(v=>v.id===x.dataset.rid);state.remindersOpen=false;if(r?.type==='meeting'){toast('员工端设计评审','15:30 · 6人 · 员工端原型')}else if(r?.type==='automation'){state.nav='auto';state.mode='work';toast('自动化提醒',r.title)}}
+else if(a==='reminderAll'){state.remindersOpen=false;toast('提醒中心','MVP 当前以右上角提醒浮层为主，完整列表后续扩展')}
+else if(a==='profile')state.nav='profile';else if(a==='settings')state.nav='settings';else if(a==='notice'){state.notificationsOpen=!state.notificationsOpen;state.remindersOpen=false}else if(a==='suggest')toast('Enterprise Brain','已按当前上下文自动路由合适 Agent。');render()});render();window.__EB_V01__={state,render};
+})();
+</script></body></html>
